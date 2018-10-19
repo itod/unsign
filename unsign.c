@@ -230,9 +230,9 @@ ub_unsign(FILE *in, FILE *out, const char *infile, const char *outfile, off_t si
                 off_t size = end - offset;
 
                 errno = ERANGE;
-                uint32_t uoffset = offset;
+                uint32_t uoffset = (uint32_t)offset;
                 expect(uoffset == offset, "offset");
-                uint32_t usize = size;
+                uint32_t usize = (uint32_t)size;
                 expect(usize == size, "size");
 
                 be32enc(&arch.offset, uoffset);
@@ -252,7 +252,7 @@ ub_unsign(FILE *in, FILE *out, const char *infile, const char *outfile, off_t si
 const char *suffix = ".unsigned";
 
 int
-main(int argc, const char *const *argv) {
+unsign_main(int argc, const char *const *argv) {
         if(argc < 2 || argc > 3) {
                 puts("usage: unsign file [outfile]");
                 return 1;
@@ -304,4 +304,6 @@ main(int argc, const char *const *argv) {
           }
         } while (!feof(outtmp));
         printf("wrote outfile: %s\n", outfile);
+    
+        return 0;
 }
